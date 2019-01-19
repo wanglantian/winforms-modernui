@@ -219,33 +219,36 @@ namespace MetroFramework.Controls
 
         protected override void OnDrawItem(DrawItemEventArgs e)
         {
-            if (e.Index >= 0)
+			if (e.State != (DrawItemState.NoAccelerator | DrawItemState.NoFocusRect | DrawItemState.ComboBoxEdit))//这个判断条件很重要
             {
-                Color backColor, foreColor;
+				if (e.Index >= 0)
+				{
+					Color backColor, foreColor;
 
-                if (e.State == (DrawItemState.NoAccelerator | DrawItemState.NoFocusRect) || e.State == DrawItemState.None)
-                {
-                    backColor = MetroPaint.BackColor.Form(Theme);
-                    foreColor = MetroPaint.ForeColor.Link.Normal(Theme);
-                }
-                else
-                {
-                    backColor = MetroPaint.GetStyleColor(Style);
-                    foreColor = MetroPaint.ForeColor.Tile.Normal(Theme);
-                }
+					if (e.State == (DrawItemState.NoAccelerator | DrawItemState.NoFocusRect) || e.State == DrawItemState.None)
+					{
+						backColor = MetroPaint.BackColor.Form(Theme);
+						foreColor = MetroPaint.ForeColor.Link.Normal(Theme);
+					}
+					else
+					{
+						backColor = MetroPaint.GetStyleColor(Style);
+						foreColor = MetroPaint.ForeColor.Tile.Normal(Theme);
+					}
 
-                using (SolidBrush b = new SolidBrush(backColor))
-                {
-                    e.Graphics.FillRectangle(b, new Rectangle(e.Bounds.Left, e.Bounds.Top, e.Bounds.Width, e.Bounds.Height));
-                }
+					using (SolidBrush b = new SolidBrush(backColor))
+					{
+						e.Graphics.FillRectangle(b, new Rectangle(e.Bounds.Left, e.Bounds.Top, e.Bounds.Width, e.Bounds.Height));
+					}
 
-                Rectangle textRect = new Rectangle(0, e.Bounds.Top, e.Bounds.Width, e.Bounds.Height);
-                TextRenderer.DrawText(e.Graphics, Items[e.Index].ToString(), MetroFonts.Link(metroLinkSize, metroLinkWeight), textRect, foreColor, backColor, TextFormatFlags.Left | TextFormatFlags.VerticalCenter);
-            }
-            else
-            {
-                base.OnDrawItem(e);
-            }
+					Rectangle textRect = new Rectangle(0, e.Bounds.Top, e.Bounds.Width, e.Bounds.Height);
+					TextRenderer.DrawText(e.Graphics, Items[e.Index].ToString(), MetroFonts.Link(metroLinkSize, metroLinkWeight), textRect, foreColor, backColor, TextFormatFlags.Left | TextFormatFlags.VerticalCenter);
+				}
+				else
+				{
+					base.OnDrawItem(e);
+				}
+			}
         }
 
         #endregion
